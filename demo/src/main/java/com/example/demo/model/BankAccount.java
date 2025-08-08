@@ -31,7 +31,7 @@ public class BankAccount {
     @JoinColumn(name = "customer_id",nullable = false)
     private Customer customer;
 
-    @OneToMany(mappedBy = "backAccount",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bankAccount",cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 
     public Long getId() {
