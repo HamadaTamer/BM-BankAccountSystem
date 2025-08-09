@@ -14,33 +14,34 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
+    private Long id;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable=false)
     private String name;
 
-    @NotBlank
-    @Column(unique=true)
-    private String phone;
-
     @Email
-    @NotBlank
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    private String phone;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BankAccount> accounts;
 
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;
 
-    public Long getId() {
-        return id;
+    // Constructors
+    public Customer(String name, String email, String phone) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    // Getters and setters
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -51,14 +52,6 @@ public class Customer {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -66,6 +59,10 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getPhone() { return phone; }
+
+    public void setPhone(String phone) { this.phone = phone; }
 
     public List<BankAccount> getAccounts() {
         return accounts;
