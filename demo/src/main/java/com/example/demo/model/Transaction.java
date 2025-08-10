@@ -36,7 +36,7 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "bank_account_id",nullable = false)
-    private BankAccount bankAccount;
+    private Account bankAccount;
 
     public Long getId() {
         return id;
@@ -78,11 +78,11 @@ public class Transaction {
         this.customer = customer;
     }
 
-    public BankAccount getBankAccount() {
+    public Account getBankAccount() {
         return bankAccount;
     }
 
-    public void setBankAccount(BankAccount bankAccount) {
+    public void setBankAccount(Account bankAccount) {
         this.bankAccount = bankAccount;
     }
 }

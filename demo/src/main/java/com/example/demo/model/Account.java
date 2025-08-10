@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name="BankAccount")
 @NoArgsConstructor
-public class BankAccount {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

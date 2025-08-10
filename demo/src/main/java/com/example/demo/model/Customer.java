@@ -30,7 +30,7 @@ public class Customer {
     private String email;
 
     @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
-    private List<BankAccount> accounts;
+    private List<Account> accounts;
 
     @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
     private List<Transaction> transactions;
@@ -67,11 +67,11 @@ public class Customer {
         this.email = email;
     }
 
-    public List<BankAccount> getAccounts() {
+    public List<Account> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(List<BankAccount> accounts) {
+    public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
 

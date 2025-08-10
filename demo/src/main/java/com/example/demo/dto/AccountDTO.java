@@ -20,6 +20,13 @@ public class AccountDTO {
     @NotNull
     private Long customerId;
 
+    public AccountDTO(Long id, String accountNumber, String accountType, double balance, Long customerId){
+        this.accountNumber = accountNumber;
+        this.accountType = accountType;
+        this.id = id;
+        this.balance = balance;
+        this.customerId = customerId;
+    }
     public Long getId() {
         return id;
     }
