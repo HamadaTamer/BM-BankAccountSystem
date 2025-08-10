@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -29,10 +30,11 @@ public class Customer {
     @Column(unique=true)
     private String email;
 
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Account> accounts;
-
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 
     public Long getId() {

@@ -76,7 +76,7 @@ public class AccountService {
     @Transactional
     public AccountDTO deposit(Long accountId, MoneyRequest req) {
         Account a = accountRepo.findById(accountId).orElseThrow(() -> nf(accountId));
-        a.setBalance(a.getBalance() + req.amount());
+        accountRepo.incrementBalance(accountId, req.amount());
         Account saved = accountRepo.save(a);
 
         Transaction t = new Transaction();
@@ -150,7 +150,7 @@ public class AccountService {
 
 
     public List<AccountDTO> range(double min, double max) {
-        return accountRepo.findByBalanceBetween(min, max).stream().map(BankAccountMapper::toDto).toList();
+        return accountRepo.findAccountsInRange(min, max).stream().map(BankAccountMapper::toDto).toList();
     }
 
     private static final SecureRandom RND = new SecureRandom();

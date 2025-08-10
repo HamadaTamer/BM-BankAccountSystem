@@ -74,4 +74,10 @@ public class CustomerService {
     private static NoSuchElementException notFound(Long id) {
         return new NoSuchElementException("Customer not found with id " + id);
     }
+
+    public CustomerDTO getByEmail(String email) {
+        Customer c = repo.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Customer not found with email " + email));
+        return toDto(c);
+    }
+
 }

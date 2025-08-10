@@ -48,4 +48,10 @@ public class CustomerController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping(value = "/search", params = "email")
+    public CustomerDTO byEmail(@RequestParam String email) {
+        return service.getByEmail(email);
+    }
+
 }

@@ -69,4 +69,14 @@ public class AccountController {
         return service.byType(type);
     }
 
+    @GetMapping(params = "minBalance")
+    public List<AccountDTO> minBalance(@RequestParam double minBalance) {
+        return service.balanceGreaterThan(minBalance);
+    }
+
+    @GetMapping(value = "/search", params = {"min","max"})
+    public List<AccountDTO> range(@RequestParam double min, @RequestParam double max) {
+        return service.range(min, max);
+    }
+
 }

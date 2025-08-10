@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -31,7 +32,8 @@ public class Account {
     @JoinColumn(name = "customer_id",nullable = false)
     private Customer customer;
 
-    @OneToMany(mappedBy = "bankAccount",cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 
     public Long getId() {

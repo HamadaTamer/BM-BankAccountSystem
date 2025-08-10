@@ -22,7 +22,6 @@ public class Transaction {
     @Positive
     private double amount;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime timestamp;
 
     @PrePersist
