@@ -73,15 +73,44 @@ public class AccountService {
     }
 
 
+    @Transactional
+    public AccountDTO deposit(Long accountId, MoneyRequest req) {
+        Account a = accountRepo.findById(accountId).orElseThrow(() -> nf(accountId));
+        a.setBalance(a.getBalance() + req.amount());
+        Account saved = accountRepo.save(a);
 
+        Transaction t = new Transaction();
+        t.setType("DEPOSIT");
+        t.setAmount(req.amount());
+        t.setCustomer(a.getCustomer());
+        t.setBankAccount(saved);
+        txRepo.save(t);
+
+        return BankAccountMapper.toDto(saved);
+    }
+
+    @Transactional
+    public AccountDTO withdraw(Long accountId, MoneyRequest req) {
+        Account a = accountRepo.findById(accountId).orElseThrow(() -> nf(accountId));
+        if (a.getBalance() < req.amount()) throw new IllegalArgumentException("insufficient funds");
+        a.setBalance(a.getBalance() - req.amount());
+        Account saved = accountRepo.save(a);
+
+        Transaction t = new Transaction();
+        t.setType("WITHDRAW");
+        t.setAmount(req.amount());
+        t.setCustomer(a.getCustomer());
+        t.setBankAccount(saved);
+        txRepo.save(t);
+
+        return BankAccountMapper.toDto(saved);
+    }
 
 
     @Transactional
     public void transfer(TransferRequest req) {
         if (req.senderAccountId().equals(req.receiverAccountId()))
             throw new IllegalArgumentException("sender and receiver must differ");
-
-
 
         Account s = accountRepo.findById(req.senderAccountId()).orElseThrow(() -> nf(req.senderAccountId()));
         Account r = accountRepo.findById(req.receiverAccountId()).orElseThrow(() -> nf(req.receiverAccountId()));

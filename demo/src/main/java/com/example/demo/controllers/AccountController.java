@@ -45,6 +45,19 @@ public class AccountController {
     }
 
 
+
+    // POST /api/accounts/{id}/deposit
+    @PostMapping("/{id}/deposit")
+    public AccountDTO deposit(@PathVariable Long id, @Valid @RequestBody MoneyRequest req) {
+        return service.deposit(id, req);
+    }
+
+    // POST /api/accounts/{id}/withdraw
+    @PostMapping("/{id}/withdraw")
+    public AccountDTO withdraw(@PathVariable Long id, @Valid @RequestBody MoneyRequest req) {
+        return service.withdraw(id, req);
+    }
+
     @PostMapping("/transfer")
     public ResponseEntity<Void> transfer(@Valid @RequestBody TransferRequest req) {
         service.transfer(req);
