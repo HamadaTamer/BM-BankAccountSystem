@@ -1,0 +1,32 @@
+PS C:\Users\ahmed\OneDrive\Desktop> .\test.ps1
+=== Create Customers ===
+                                                                                                                        POST /api/customers -> HTTP 201                                                                                         {"id":1,"name":"Ahmed Tamer 5361","email":"ahmed.5361@example.com","phone":"01021262407"}                                                                                                                                                       POST /api/customers -> HTTP 201                                                                                         {"id":2,"name":"Sara Ali 5361","email":"sara.5361@example.com","phone":"01157139158"}                                   Customer IDs: 1, 2                                                                                                                                                                                                                              === Create Accounts (auto accountNumber) ===
+                                                                                                                        POST /api/accounts -> HTTP 201                                                                                          {"id":1,"accountNumber":"03653355712111","accountType":"SAVINGS","balance":1500.0,"customerId":1}                                                                                                                                               POST /api/accounts -> HTTP 201                                                                                          {"id":2,"accountNumber":"70005684392051","accountType":"CHECKING","balance":500.0,"customerId":2}                       Account IDs: 1, 2                                                                                                                                                                                                                               === Deposit / Withdraw / Transfer ===                                                                                                                                                                                                           POST /api/accounts/1/deposit -> HTTP 200                                                                                {"id":1,"accountNumber":"03653355712111","accountType":"SAVINGS","balance":1500.0,"customerId":1}
+
+POST /api/accounts/2/withdraw -> HTTP 200                                                                               {"id":2,"accountNumber":"70005684392051","accountType":"CHECKING","balance":400.0,"customerId":2}                                                                                                                                               POST /api/accounts/transfer -> HTTP 204
+=== Verify Balances ===
+
+GET /api/accounts/1 -> HTTP 200
+{"id":1,"accountNumber":"03653355712111","accountType":"SAVINGS","balance":1600.0,"customerId":1}
+                                                                                                                        GET /api/accounts/2 -> HTTP 200                                                                                         {"id":2,"accountNumber":"70005684392051","accountType":"CHECKING","balance":600.0,"customerId":2}                                                                                                                                               === Finders & Queries ===                                                                                                                                                                                                                       GET /api/accounts/type/SAVINGS -> HTTP 200                                                                              [{"id":1,"accountNumber":"03653355712111","accountType":"SAVINGS","balance":1600.0,"customerId":1}]
+GET /api/accounts?minBalance=500 -> HTTP 200
+[{"id":1,"accountNumber":"03653355712111","accountType":"SAVINGS","balance":1600.0,"customerId":1},{"id":2,"accountNumber":"70005684392051","accountType":"CHECKING","balance":600.0,"customerId":2}]
+
+GET /api/accounts/search?min=200&max=3000 -> HTTP 200
+[{"id":1,"accountNumber":"03653355712111","accountType":"SAVINGS","balance":1600.0,"customerId":1},{"id":2,"accountNumber":"70005684392051","accountType":"CHECKING","balance":600.0,"customerId":2}]
+
+=== List Customers (paged) ===
+
+GET /api/customers?page=0&size=10 -> HTTP 200
+{"content":[{"id":1,"name":"Ahmed Tamer 5361","email":"ahmed.5361@example.com","phone":"01021262407"},{"id":2,"name":"Sara Ali 5361","email":"sara.5361@example.com","phone":"01157139158"}],"pageable":{"pageNumber":0,"pageSize":10,"sort":{"empty":true,"sorted":false,"unsorted":true},"offset":0,"paged":true,"unpaged":false},"last":true,"totalElements":2,"totalPages":1,"size":10,"number":0,"sort":{"empty":true,"sorted":false,"unsorted":true},"first":true,"numberOfElements":2,"empty":false}
+
+=== Transactions by Account ===
+
+GET /api/transactions/account/1 -> HTTP 200
+[{"id":1,"type":"DEPOSIT","amount":300.0,"timestamp":"2025-08-10T22:53:35.299067","bankAccountId":1,"customerId":1},{"id":3,"type":"TRANSFER_OUT","amount":200.0,"timestamp":"2025-08-10T22:53:35.388072","bankAccountId":1,"customerId":1}]
+
+GET /api/transactions/account/2 -> HTTP 200
+[{"id":2,"type":"WITHDRAW","amount":100.0,"timestamp":"2025-08-10T22:53:35.337626","bankAccountId":2,"customerId":2},{"id":4,"type":"TRANSFER_IN","amount":200.0,"timestamp":"2025-08-10T22:53:35.392072","bankAccountId":2,"customerId":2}]
+
+âœ… Smoke run finished.
+PS C:\Users\ahmed\OneDrive\Desktop>
