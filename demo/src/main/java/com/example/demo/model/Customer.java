@@ -1,6 +1,5 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -15,34 +14,34 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
+    private Long id;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable=false)
     private String name;
 
-    @NotBlank
-    @Column(unique=true)
-    private String phone;
-
     @Email
-    @NotBlank
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Account> accounts;
-    @JsonIgnore
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private String phone;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BankAccount> accounts;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;
 
-    public Long getId() {
-        return id;
+    // Constructors
+    public Customer(String name, String email, String phone) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    // Getters and setters
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -53,14 +52,6 @@ public class Customer {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -69,11 +60,15 @@ public class Customer {
         this.email = email;
     }
 
-    public List<Account> getAccounts() {
+    public String getPhone() { return phone; }
+
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public List<BankAccount> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(List<Account> accounts) {
+    public void setAccounts(List<BankAccount> accounts) {
         this.accounts = accounts;
     }
 
